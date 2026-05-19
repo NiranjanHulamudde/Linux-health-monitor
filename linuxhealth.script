@@ -1,0 +1,46 @@
+#!/bin/bash
+#this will be next work in line.
+#this script will try to check the system status, health reports for linux
+#this will be third repo in my work
+#lets go then
+
+logs="log"
+
+logfile="log/system.log"
+
+mkdir -p "$logs"
+
+
+time=$(date | cut -c21-35 )
+echo
+echo "======= System monitor health ======="
+echo
+echo "Time: $time"
+echo
+host=$(hostname)
+echo
+echo "hostname: $host"
+echo
+free -h
+df -h
+ping -c 2 www.google.com > /dev/null 2>&1
+echo
+if [ $? -eq 0 ]
+then
+echo "connection is ok" >> /home/ninja/newgit/git1/log/system.log
+else
+echo "connection not ok"
+echo
+fi
+echo
+cpu=$(uptime | awk '{ print $8-$10 }' )
+echo
+disk_usage=$(df -h / | awk 'NR==2 {print $5}' | cut -d "%" -f1)
+echo
+if [ "$disk_usage" -ge 80 ]
+	then
+	echo "warning: disk usage above 80%"
+
+fi
+
+
